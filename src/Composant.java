@@ -5,7 +5,9 @@ import java.lang.reflect.Field;
 public class Composant {
 
     public String construireHtmlFormulaire() {
-        String html = "";
+        StringBuilder html = new StringBuilder();
+
+        html.append("<form action=\"traitementData.jsp\" method=\"post\">\n\n");
 
         Class<?> clazz = this.getClass();
         Field[] fields = clazz.getDeclaredFields();
@@ -13,18 +15,27 @@ public class Composant {
         for (Field field : fields) {
             String nomChamp = field.getName();
             String typeChamp = field.getType().getSimpleName();
-
-            html += "<label for=\"" + nomChamp + "\">" + capitalize(nomChamp) + ":</label>\n";
-
             String inputType = getInputType(typeChamp);
 
-            html += "<input type=\"" + inputType + "\" name=\"" + nomChamp + "\" id=\"" + nomChamp + "\" />\n\n";
+            html.append("  <label for=\"")
+                .append(nomChamp)
+                .append("\">")
+                .append(capitalize(nomChamp))
+                .append(":</label>\n");
+
+            html.append("  <input type=\"")
+                .append(inputType)
+                .append("\" name=\"")
+                .append(nomChamp)
+                .append("\" id=\"")
+                .append(nomChamp)
+                .append("\" />\n\n");
         }
 
-        html += "<input type=\"submit\" value=\"Envoyer\" />\n";
-        html += "</form>";
+        html.append("  <input type=\"submit\" value=\"Envoyer\" />\n");
+        html.append("</form>");
 
-        return html;
+        return html.toString();
     }
 
     public String getInputType(String javaType) {
