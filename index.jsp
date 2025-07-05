@@ -3,7 +3,7 @@
 
 <html>
 <head>
-    <title>JSP COMPONENT</title>
+    <title>JSP COMPONENT HUB</title>
 </head>
 <body>
     <h2>Formulaire</h2>
