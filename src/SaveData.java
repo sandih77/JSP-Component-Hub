@@ -1,6 +1,7 @@
 package data;
 
 import tools.Tools;
+import gui.Deroulante;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -38,7 +39,26 @@ public class SaveData {
             for (int i = 0; i < fields.length; i++) {
                 String attr = fields[i].getName();
                 Object value = Tools.appelerGetter(object, attr);
-                writer.write(value != null ? value.toString() : "");
+                if (value instanceof Deroulante deroulante) {
+                    String selected = deroulante.getValeurSelectionnee();
+                    String[] cles = deroulante.getCle();
+                    String[] valeurs = deroulante.getValeur();
+
+                    String affichage = selected;
+                    if (cles != null && valeurs != null && cles.length == valeurs.length) {
+                        for (int j = 0; j < cles.length; j++) {
+                            if (cles[j].equals(selected)) {
+                                affichage = valeurs[j];
+                                break;
+                            }
+                        }
+                    }
+
+                    writer.write(affichage != null ? affichage : "");
+                } else {
+                    writer.write(value != null ? value.toString() : "");
+                }
+
                 if (i < fields.length - 1) {
                     writer.write(";");
                 }

@@ -5,7 +5,7 @@ public class Personne extends Composant {
     String nom;
     String adress;
     String prenom;
-    String sexe;
+    Sexe sexe;
     int age;
 
     public String getNom() {
@@ -24,7 +24,7 @@ public class Personne extends Composant {
         return this.age;
     }
 
-    public String getSexe() {
+    public Sexe getSexe() {
         return this.sexe;
     }
 
@@ -40,7 +40,7 @@ public class Personne extends Composant {
         this.adress = Adress;
     }
 
-    public void setSexe(String Sexe) {
+    public void setSexe(Sexe Sexe) {
         this.sexe = Sexe;
     }
 
