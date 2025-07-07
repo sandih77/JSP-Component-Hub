@@ -29,4 +29,9 @@ public class Auto extends Composant {
     public void setEtat(Etat etat) {
         this.etat = etat;
     }
+
+    @Override
+    public String toString() {
+        return "Nom: " + nom + ", Prix: " + prix + ", Etat: " + etat;
+    }
 }

@@ -6,7 +6,16 @@ public class Personne extends Composant {
     String adress;
     String prenom;
     Sexe sexe;
+    Mariage mariage;
     int age;
+
+    public Mariage getMariage() {
+        return this.mariage;
+    }
+
+    public void setMariage(Mariage mariage) {
+        this.mariage = mariage;
+    }
 
     public String getNom() {
         return this.nom;
@@ -46,5 +55,11 @@ public class Personne extends Composant {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "Nom: " + nom + ", Adresse: " + adress + ", Prénom: " + prenom +
+               ", Sexe: " + sexe + ", Age: " + age;
     }
 }
