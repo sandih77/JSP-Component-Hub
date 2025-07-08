@@ -19,7 +19,6 @@ public class Composant {
 
     // === FORMULAIRE COMPLET : gere donnees + sauvegarde + affichage ===
     public String construireHtmlFormulaire(Map<String, String[]> paramMap, String cheminFichier, String action) {
-        // Si parametres reçus, on hydrate l'objet et sauvegarde
         if (paramMap != null && !paramMap.isEmpty()) {
             try {
                 hydraterAvecParametres(paramMap, "");
