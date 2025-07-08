@@ -67,5 +67,4 @@ public class Deroulante extends Composant {
         }
         return display;
     }
-
 }
