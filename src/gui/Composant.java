@@ -1,7 +1,6 @@
 package gui;
 
 import data.SaveData;
-
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
@@ -18,9 +17,9 @@ public class Composant {
         this.data = data;
     }
 
-    // === FORMULAIRE COMPLET : gère données + sauvegarde + affichage ===
+    // === FORMULAIRE COMPLET : gere donnees + sauvegarde + affichage ===
     public String construireHtmlFormulaire(Map<String, String[]> paramMap, String cheminFichier, String action) {
-        // Si paramètres reçus, on hydrate l'objet et sauvegarde
+        // Si parametres reçus, on hydrate l'objet et sauvegarde
         if (paramMap != null && !paramMap.isEmpty()) {
             try {
                 hydraterAvecParametres(paramMap, "");
@@ -36,15 +35,12 @@ public class Composant {
         html.append("<h2 class=\"mb-4\">Formulaire d'enregistrement</h2>\n");
         html.append("<form action=\"").append(action).append("\" method=\"post\" class=\"row g-3\">\n");
 
-        // Champ caché classe
         html.append("  <input type=\"hidden\" name=\"class\" value=\"").append(this.getClass().getName()).append("\" />\n");
 
-        // Champs du formulaire
         html.append(construireChampsFormulaire("", this));
 
         html.append("</form>\n");
 
-        // Bouton submit en dehors du formulaire
         html.append("<div class=\"mt-3\">\n");
         html.append("  <button form=\"\" type=\"submit\" class=\"btn btn-success\" onclick=\"document.forms[0].submit();\">Envoyer</button>\n");
         html.append("</div>\n");
@@ -52,8 +48,8 @@ public class Composant {
         return html.toString();
     }
 
-    // Méthode récursive pour hydrater objet avec paramètres (nomChamps imbriqués avec '.'), à compléter si nécessaire
-    private void hydraterAvecParametres(Map<String, String[]> paramMap, String prefix) throws Exception {
+    // Methode recursive pour hydrater objet avec parametres (nomChamps imbriques avec '.'), à completer si necessaire
+    public void hydraterAvecParametres(Map<String, String[]> paramMap, String prefix) throws Exception {
         Class<?> clazz = this.getClass();
         Field[] fields = clazz.getDeclaredFields();
 
@@ -63,14 +59,14 @@ public class Composant {
             Class<?> type = field.getType();
 
             if (type.getName().startsWith("gui.") && !Deroulante.class.isAssignableFrom(type)) {
-                // Objet imbriqué
+                // Objet imbrique
                 Object instance = field.get(this);
                 if (instance == null) {
                     instance = type.getDeclaredConstructor().newInstance();
                     field.set(this, instance);
                 }
 
-                // Appel récursif sur l'objet imbriqué
+                // Appel recursif sur l'objet imbrique
                 if (instance instanceof Composant composant) {
                     composant.hydraterAvecParametres(paramMap, nomChamp);
                 }
@@ -101,7 +97,6 @@ public class Composant {
                         field.set(this, Float.parseFloat(valeur));
                     } else {
                         // Pour autres types, on peut tenter toString ou ignorer
-                        // Ignoré ici
                     }
                 }
             }
@@ -130,7 +125,7 @@ public class Composant {
         return html.toString();
     }
 
-    // === Remplissage de l'objet via paramètres du formulaire ===
+    // === Remplissage de l'objet via parametres du formulaire ===
     public void remplirDepuisParametres(Map<String, String[]> paramMap) {
         try {
             Field[] fields = this.getClass().getDeclaredFields();
@@ -177,8 +172,8 @@ public class Composant {
         }
     }
 
-    // === Construction récursive des champs ===
-    private String construireChampsFormulaire(String prefix, Object instance) {
+    // === Construction recursive des champs ===
+    public String construireChampsFormulaire(String prefix, Object instance) {
         StringBuilder html = new StringBuilder();
 
         Class<?> clazz = instance.getClass();
@@ -262,16 +257,15 @@ public class Composant {
         return html.toString();
     }
 
-    // === Affichage HTML de la table ===
     public String construireHtmlTable() {
         StringBuilder html = new StringBuilder();
         html.append("<div class=\"container mt-5\">\n");
-        html.append("<h2 class=\"mb-4\">Liste des données enregistrées</h2>\n");
+        html.append("<h2 class=\"mb-4\">Liste des donnees enregistrees</h2>\n");
         html.append("<div class=\"table-responsive\">\n");
         html.append("<table class=\"table table-hover table-bordered align-middle\">\n");
 
         if (data == null || data.isEmpty()) {
-            html.append("  <tr><td colspan=\"100%\">Aucune donnée</td></tr>\n");
+            html.append("  <tr><td colspan=\"100%\">Aucune donnee</td></tr>\n");
             html.append("</table>\n</div>\n</div>");
             return html.toString();
         }
@@ -281,14 +275,14 @@ public class Composant {
         List<String> colonnes = new java.util.ArrayList<>();
         collectFieldNames(premierObjet, "", colonnes);
 
-        // En-tête du tableau
+        // En-tete du tableau
         html.append("  <thead class=\"table-dark\">\n  <tr>\n");
         for (String nomColonne : colonnes) {
             html.append("    <th scope=\"col\">").append(capitalize(nomColonne)).append("</th>\n");
         }
         html.append("  </tr>\n</thead>\n");
 
-        // Données du tableau
+        // Donnees du tableau
         html.append("  <tbody>\n");
         for (Object obj : data) {
             html.append("  <tr>\n");
@@ -305,7 +299,7 @@ public class Composant {
         return html.toString();
     }
 
-    private void collectFieldNames(Object obj, String prefix, List<String> noms) {
+    public void collectFieldNames(Object obj, String prefix, List<String> noms) {
         if (obj == null) {
             return;
         }
@@ -328,7 +322,7 @@ public class Composant {
         }
     }
 
-    private void collectFieldValues(Object obj, List<String> valeurs) {
+    public void collectFieldValues(Object obj, List<String> valeurs) {
         if (obj == null) {
             return;
         }
@@ -366,8 +360,7 @@ public class Composant {
         }
     }
 
-// === Helper : type input HTML selon type Java ===
-    private String getInputType(String javaType) {
+    public String getInputType(String javaType) {
         return switch (javaType.toLowerCase()) {
             case "string" ->
                 "text";
@@ -380,8 +373,7 @@ public class Composant {
         };
     }
 
-// === Helper : capitaliser la 1ère lettre ===
-    private String capitalize(String text) {
+    public String capitalize(String text) {
         if (text == null || text.isEmpty()) {
             return "";
         }

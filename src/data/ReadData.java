@@ -1,12 +1,10 @@
 package data;
 
+import gui.Deroulante;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-
-import gui.Composant;
-import gui.Deroulante;
 
 public class ReadData {
 
@@ -37,7 +35,7 @@ public class ReadData {
                     String header = headers[i];
                     String valueStr = values[i];
 
-                    // Gestion des champs imbriqués "objet.champ"
+                    // Gestion des champs imbriques "objet.champ"
                     String[] parts = header.split("\\.");
                     Object targetObject = instance;
                     Class<?> targetClass = clazz;
@@ -49,7 +47,7 @@ public class ReadData {
                             field.setAccessible(true);
                             setFieldValue(field, targetObject, valueStr);
                         } catch (NoSuchFieldException e) {
-                            // Ignorer champ non trouvé
+                            // Ignorer champ non trouve
                         }
                     } else if (parts.length == 2) {
                         // Champ dans un sous-objet
@@ -57,7 +55,7 @@ public class ReadData {
                         String subFieldName = parts[1];
 
                         try {
-                            // Récupérer ou créer l'objet imbriqué
+                            // Recuperer ou creer l'objet imbrique
                             Field objField = targetClass.getDeclaredField(objName);
                             objField.setAccessible(true);
                             Object subObject = objField.get(targetObject);
@@ -66,15 +64,15 @@ public class ReadData {
                                 objField.set(targetObject, subObject);
                             }
 
-                            // Récupérer le champ du sous-objet et le remplir
+                            // Recuperer le champ du sous-objet et le remplir
                             Field subField = subObject.getClass().getDeclaredField(subFieldName);
                             subField.setAccessible(true);
                             setFieldValue(subField, subObject, valueStr);
                         } catch (NoSuchFieldException e) {
-                            // Ignorer champ non trouvé
+                            // Ignorer champ non trouve
                         }
                     }
-                    // Tu peux étendre pour plus de profondeur si besoin
+                    //Autre methode si besoin
                 }
 
                 liste.add(instance);
@@ -85,9 +83,9 @@ public class ReadData {
     }
 
     /**
-     * Méthode utilitaire pour convertir la String et setter le champ
+     * Methode utilitaire pour convertir la String et setter le champ
      */
-    private void setFieldValue(Field field, Object target, String valueStr) throws Exception {
+    public void setFieldValue(Field field, Object target, String valueStr) throws Exception {
         Class<?> type = field.getType();
 
         if (Deroulante.class.isAssignableFrom(type)) {
@@ -103,12 +101,12 @@ public class ReadData {
         } else if (type == String.class) {
             field.set(target, valueStr);
         } else {
-            // gérer d'autres types si besoin
+            // gerer d'autres types si besoin
             field.set(target, null);
         }
     }
 
-    private Object convert(String value, Class<?> type) {
+    public Object convert(String value, Class<?> type) {
         if (type == int.class || type == Integer.class) {
             return value.isEmpty() ? 0 : Integer.parseInt(value);
         } else if (type == boolean.class || type == Boolean.class) {

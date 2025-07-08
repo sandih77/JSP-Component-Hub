@@ -1,15 +1,15 @@
 package data;
 
-import gui.Composant;
 import gui.Deroulante;
-
 import java.io.*;
 import java.lang.reflect.Field;
 
 public class SaveData {
 
     public void save(String filename, Object object) {
-        if (object == null) return;
+        if (object == null) {
+            return;
+        }
 
         File file = new File(filename);
         boolean fileExists = file.exists();
@@ -32,7 +32,7 @@ public class SaveData {
         }
     }
 
-    private void writeHeaderLine(BufferedWriter writer, Field[] fields, String prefix) throws IOException {
+    public void writeHeaderLine(BufferedWriter writer, Field[] fields, String prefix) throws IOException {
         for (int i = 0; i < fields.length; i++) {
             Field field = fields[i];
             field.setAccessible(true);
@@ -41,7 +41,6 @@ public class SaveData {
             if (isPrimitiveOrWrapperOrString(type) || Deroulante.class.isAssignableFrom(type)) {
                 writer.write(prefix + field.getName());
             } else {
-                // Objet imbriqué, appel récursif
                 writeHeaderLine(writer, type.getDeclaredFields(), prefix + field.getName() + ".");
             }
 
@@ -51,7 +50,7 @@ public class SaveData {
         }
     }
 
-    private void writeDataLine(BufferedWriter writer, Field[] fields, Object obj, String prefix) throws IOException, IllegalAccessException {
+    public void writeDataLine(BufferedWriter writer, Field[] fields, Object obj, String prefix) throws IOException, IllegalAccessException {
         for (int i = 0; i < fields.length; i++) {
             Field field = fields[i];
             field.setAccessible(true);
@@ -76,16 +75,16 @@ public class SaveData {
         }
     }
 
-    private boolean isPrimitiveOrWrapperOrString(Class<?> type) {
-        return type.isPrimitive() ||
-                type == String.class ||
-                type == Integer.class ||
-                type == Long.class ||
-                type == Double.class ||
-                type == Float.class ||
-                type == Boolean.class ||
-                type == Byte.class ||
-                type == Short.class ||
-                type == Character.class;
+    public boolean isPrimitiveOrWrapperOrString(Class<?> type) {
+        return type.isPrimitive()
+                || type == String.class
+                || type == Integer.class
+                || type == Long.class
+                || type == Double.class
+                || type == Float.class
+                || type == Boolean.class
+                || type == Byte.class
+                || type == Short.class
+                || type == Character.class;
     }
 }
