@@ -34,7 +34,7 @@ public class Deroulante extends Composant {
     public String construireHtmlFormulaire(String action) {
         StringBuilder html = new StringBuilder();
         if (cle != null && valeur != null && cle.length == valeur.length) {
-            String name = this.getClass().getSimpleName().toLowerCase(); // ex: "sexe"
+            String name = this.getClass().getSimpleName().toLowerCase(); 
             html.append("<label for=\"").append(name).append("\">Sexe :</label>\n");
             html.append("<select name=\"").append(name).append("\" id=\"").append(name).append("\">\n");
             for (int i = 0; i < cle.length; i++) {

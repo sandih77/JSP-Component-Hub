@@ -38,7 +38,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8" />
-    <title>Exemple Composant Formulaire</title>
+    <title>JSP-Component-Hub</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body>
